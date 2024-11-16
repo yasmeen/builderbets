@@ -77,14 +77,16 @@ export const useFunding = (contractAddress: string) => {
         }
       }
 
-      const balance = await provider.getBalance(await signer.getAddress());
+      const address = await signer.getAddress();
+      const balance = await provider.getBalance(address);
       const requiredAmount = ethers.parseEther(amount);
       const estimatedGas = ethers.parseEther("0.001"); // Estimate gas cost as 0.001 ETH
+      const formattedBalance = Number(ethers.formatEther(balance)).toFixed(4);
       
       if (balance < (requiredAmount + estimatedGas)) {
         toast({
           title: "Insufficient Balance",
-          description: `You need ${amount} ETH plus ~0.001 ETH for gas. Your balance: ${ethers.formatEther(balance)} ETH`,
+          description: `You need ${amount} ETH plus ~0.001 ETH for gas. Your balance: ${formattedBalance} ETH`,
           variant: "destructive",
         });
         return;
