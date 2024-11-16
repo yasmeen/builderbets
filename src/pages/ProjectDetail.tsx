@@ -1,4 +1,7 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { ethers } from "ethers";
+import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
 import FundingProgress from "@/components/FundingProgress";
 import TokenCalculator from "@/components/TokenCalculator";
@@ -6,7 +9,10 @@ import { Button } from "@/components/ui/button";
 
 const ProjectDetail = () => {
   const { id } = useParams();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Example project data - in a real app, this would come from your backend
   const project = {
     id: "1",
     title: "DeFi Lending Protocol",
@@ -16,6 +22,7 @@ const ProjectDetail = () => {
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
     daysLeft: 7,
     contributors: 156,
+    contractAddress: "0x123...", // Replace with your actual contract address
     team: [
       {
         name: "Alice Johnson",
@@ -28,6 +35,59 @@ const ProjectDetail = () => {
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
       }
     ]
+  };
+
+  const handleFund = async () => {
+    try {
+      setIsLoading(true);
+
+      if (!window.ethereum) {
+        toast({
+          title: "MetaMask not found",
+          description: "Please install MetaMask to fund this project",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Request account access
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      // Create transaction object
+      const tx = {
+        to: project.contractAddress,
+        value: ethers.parseEther("0.1"), // Default to 0.1 ETH - you should make this dynamic
+      };
+
+      // Send transaction
+      const transaction = await signer.sendTransaction(tx);
+      
+      toast({
+        title: "Transaction Sent",
+        description: "Please wait for confirmation...",
+      });
+
+      // Wait for transaction to be mined
+      await transaction.wait();
+
+      toast({
+        title: "Success!",
+        description: "Your contribution has been received",
+      });
+
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Transaction Failed",
+        description: error.message || "Please try again",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -90,8 +150,10 @@ const ProjectDetail = () => {
               <Button 
                 className="w-full text-lg py-6 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity"
                 size="lg"
+                onClick={handleFund}
+                disabled={isLoading}
               >
-                Fund This Project
+                {isLoading ? "Processing..." : "Fund This Project"}
               </Button>
             </div>
           </div>
