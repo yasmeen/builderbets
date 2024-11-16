@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { PayButton } from '@coinbase/onchainkit';
+import { PayButton } from '@coinbase/onchainkit/dist/components/PayButton';
 import { Coins, Users, Timer, CreditCard, Wallet, ChartPie } from "lucide-react";
 
 const TokenCalculator = () => {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ConnectButton } from '@coinbase/onchainkit';
+import { ConnectButton } from '@coinbase/onchainkit/dist/components/ConnectButton';
 import { Wallet, User } from "lucide-react";
 
 const Navbar = () => {
