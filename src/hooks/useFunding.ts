@@ -58,10 +58,10 @@ export const useFunding = (contractAddress: string) => {
                   blockExplorerUrls: ['https://sepolia.etherscan.io']
                 }]
               });
-            } catch (addError) {
+            } catch (addError: any) {
               toast({
                 title: "Network Error",
-                description: "Please add and switch to Sepolia testnet manually",
+                description: addError.message || "Please add and switch to Sepolia testnet manually",
                 variant: "destructive",
               });
               return;
@@ -69,7 +69,7 @@ export const useFunding = (contractAddress: string) => {
           } else {
             toast({
               title: "Network Error",
-              description: "Please switch to Sepolia testnet",
+              description: switchError.message || "Please switch to Sepolia testnet",
               variant: "destructive",
             });
             return;
@@ -80,7 +80,7 @@ export const useFunding = (contractAddress: string) => {
       const address = await signer.getAddress();
       const balance = await provider.getBalance(address);
       const requiredAmount = ethers.parseEther(amount);
-      const estimatedGas = ethers.parseEther("0.001"); // Estimate gas cost as 0.001 ETH
+      const estimatedGas = ethers.parseEther("0.001");
       const formattedBalance = Number(ethers.formatEther(balance)).toFixed(4);
       
       if (balance < (requiredAmount + estimatedGas)) {
@@ -111,11 +111,11 @@ export const useFunding = (contractAddress: string) => {
         description: "Your contribution has been received",
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
       toast({
         title: "Transaction Failed",
-        description: "Make sure you have enough Sepolia ETH for the transaction and gas fees",
+        description: error.message || "Transaction failed. Please try again.",
         variant: "destructive",
       });
     } finally {
