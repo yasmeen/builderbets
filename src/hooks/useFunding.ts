@@ -18,6 +18,7 @@ export const useFunding = (contractAddress: string) => {
 
     try {
       setIsLoading(true);
+      console.log("Starting funding process with contract:", contractAddress);
 
       if (!window.ethereum) {
         toast({
@@ -34,6 +35,7 @@ export const useFunding = (contractAddress: string) => {
       const signer = await provider.getSigner();
 
       const network = await provider.getNetwork();
+      console.log("Current network:", network);
       
       if (network.chainId !== 11155111n) {
         try {
@@ -77,7 +79,10 @@ export const useFunding = (contractAddress: string) => {
         }
       }
 
+      console.log("Attempting transaction to contract:", contractAddress);
       const address = await signer.getAddress();
+      console.log("Sender address:", address);
+      
       const balance = await provider.getBalance(address);
       const requiredAmount = ethers.parseEther(amount);
       const estimatedGas = ethers.parseEther("0.001");
@@ -97,6 +102,7 @@ export const useFunding = (contractAddress: string) => {
         value: requiredAmount,
       };
 
+      console.log("Sending transaction:", tx);
       const transaction = await signer.sendTransaction(tx);
       
       toast({
@@ -112,7 +118,12 @@ export const useFunding = (contractAddress: string) => {
       });
 
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error('Error details:', {
+        error,
+        message: error.message,
+        code: error.code,
+        contractAddress
+      });
       toast({
         title: "Transaction Failed",
         description: error.message || "Transaction failed. Please try again.",
