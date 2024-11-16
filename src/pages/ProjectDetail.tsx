@@ -59,14 +59,49 @@ const ProjectDetail = () => {
       // Get the current network
       const network = await provider.getNetwork();
       
-      // Check if we're on the correct network (Ethereum Mainnet)
-      if (network.chainId !== 1n) {
-        toast({
-          title: "Wrong Network",
-          description: "Please switch to Ethereum Mainnet",
-          variant: "destructive",
-        });
-        return;
+      // Check if we're on Sepolia testnet (chainId: 11155111)
+      if (network.chainId !== 11155111n) {
+        // Try to switch to Sepolia
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0xaa36a7' }], // Sepolia chainId in hex
+          });
+        } catch (switchError: any) {
+          // If Sepolia is not added to MetaMask, add it
+          if (switchError.code === 4902) {
+            try {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId: '0xaa36a7',
+                  chainName: 'Sepolia Testnet',
+                  nativeCurrency: {
+                    name: 'Sepolia ETH',
+                    symbol: 'SEP',
+                    decimals: 18
+                  },
+                  rpcUrls: ['https://sepolia.infura.io/v3/'],
+                  blockExplorerUrls: ['https://sepolia.etherscan.io']
+                }]
+              });
+            } catch (addError) {
+              toast({
+                title: "Network Error",
+                description: "Please add and switch to Sepolia testnet manually",
+                variant: "destructive",
+              });
+              return;
+            }
+          } else {
+            toast({
+              title: "Network Error",
+              description: "Please switch to Sepolia testnet",
+              variant: "destructive",
+            });
+            return;
+          }
+        }
       }
 
       // Check balance before sending
@@ -76,16 +111,15 @@ const ProjectDetail = () => {
       if (balance < requiredAmount) {
         toast({
           title: "Insufficient Balance",
-          description: "You need at least 0.1 ETH plus gas to fund this project",
+          description: "You need at least 0.1 Sepolia ETH plus gas to fund this project",
           variant: "destructive",
         });
         return;
       }
 
       // Create transaction object with the project's funding address
-      // Using a regular EOA address for receiving ETH instead of the USDC contract
       const tx = {
-        to: project.contractAddress, // Use the project's actual funding address
+        to: project.contractAddress,
         value: ethers.parseEther("0.1"),
       };
 
@@ -109,7 +143,7 @@ const ProjectDetail = () => {
       console.error('Error:', error);
       toast({
         title: "Transaction Failed",
-        description: "Make sure you have enough ETH for the transaction and gas fees",
+        description: "Make sure you have enough Sepolia ETH for the transaction and gas fees",
         variant: "destructive",
       });
     } finally {
