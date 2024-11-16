@@ -1,20 +1,73 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
+import { Wallet, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const { toast } = useToast();
+  const [address, setAddress] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkWallet = async () => {
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        setAddress(accounts[0] || null);
+      }
+    };
+
+    checkWallet();
+
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+        setAddress(accounts[0] || null);
+      });
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', () => {});
+      }
+    };
+  }, []);
+
+  const handleConnect = async () => {
+    if (!window.ethereum) {
+      toast({
+        title: "MetaMask Not Found",
+        description: "Please install MetaMask to connect your wallet",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAddress(accounts[0]);
+      toast({
+        title: "Wallet Connected",
+        description: "Your wallet has been connected successfully",
+      });
+    } catch (error) {
+      console.error("Error connecting wallet:", error);
+      toast({
+        title: "Connection Failed",
+        description: "Failed to connect your wallet",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleDisconnect = async () => {
-    // Clear any wallet-related state
     if (window.ethereum) {
       try {
-        // Request account disconnection
         await window.ethereum.request({
           method: "wallet_requestPermissions",
           params: [{ eth_accounts: {} }]
         });
-        
+        setAddress(null);
         toast({
           title: "Wallet Disconnected",
           description: "Your wallet has been disconnected successfully",
@@ -23,6 +76,10 @@ const Navbar = () => {
         console.error("Error disconnecting wallet:", error);
       }
     }
+  };
+
+  const shortenAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   return (
@@ -41,14 +98,26 @@ const Navbar = () => {
             <Link to="/submit" className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
               Submit Project
             </Link>
-            {window.ethereum?.selectedAddress && (
+            {!address ? (
               <Button
-                variant="outline"
-                onClick={handleDisconnect}
-                className="border-red-500 text-red-500 hover:bg-red-50"
+                onClick={handleConnect}
+                className="flex items-center space-x-2"
               >
-                Disconnect Wallet
+                <Wallet className="w-4 h-4" />
+                <span>Connect Wallet</span>
               </Button>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600">{shortenAddress(address)}</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDisconnect}
+                  className="text-gray-600 hover:text-red-500"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
             )}
           </div>
         </div>
