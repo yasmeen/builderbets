@@ -22,7 +22,11 @@ const FundingProgress = ({ raised, goal, contributors, daysLeft }: FundingProgre
           <p className="text-gray-400">raised of {goal} ETH goal</p>
         </div>
         
-        <Progress value={progress} className="h-3 bg-gray-700" />
+        <Progress 
+          value={progress} 
+          className="h-3 bg-gray-700" 
+          indicatorClassName="bg-gradient-to-r from-primary to-secondary"
+        />
         
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-800/50 p-4 rounded-lg">

@@ -43,7 +43,11 @@ const Projects = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const filteredProjects = projects.filter(project => {
+  // Get projects from localStorage
+  const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+  const allProjects = [...projects, ...storedProjects];
+
+  const filteredProjects = allProjects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) ||
                          project.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
