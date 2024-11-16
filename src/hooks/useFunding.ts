@@ -35,7 +35,11 @@ export const useFunding = (contractAddress: string) => {
       const signer = await provider.getSigner();
 
       const network = await provider.getNetwork();
-      console.log("Current network:", network);
+      // Convert chainId to string for logging
+      console.log("Current network:", {
+        name: network.name,
+        chainId: network.chainId.toString()
+      });
       
       if (network.chainId !== 11155111n) {
         try {
@@ -102,7 +106,11 @@ export const useFunding = (contractAddress: string) => {
         value: requiredAmount,
       };
 
-      console.log("Sending transaction:", tx);
+      console.log("Sending transaction:", {
+        to: tx.to,
+        value: tx.value.toString()
+      });
+      
       const transaction = await signer.sendTransaction(tx);
       
       toast({
@@ -119,7 +127,6 @@ export const useFunding = (contractAddress: string) => {
 
     } catch (error: any) {
       console.error('Error details:', {
-        error,
         message: error.message,
         code: error.code,
         contractAddress
