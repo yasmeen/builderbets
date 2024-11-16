@@ -24,8 +24,7 @@ const FundingProgress = ({ raised, goal, contributors, daysLeft }: FundingProgre
         
         <Progress 
           value={progress} 
-          className="h-3 bg-gray-700" 
-          indicatorClassName="bg-gradient-to-r from-primary to-secondary"
+          className="h-3 bg-gray-700 [&>[role=progressbar]]:bg-gradient-to-r [&>[role=progressbar]]:from-primary [&>[role=progressbar]]:to-secondary" 
         />
         
         <div className="grid grid-cols-2 gap-4">
