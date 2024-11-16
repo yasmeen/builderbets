@@ -56,10 +56,10 @@ const ProjectDetail = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
 
-      // Create transaction object
+      // Create transaction object with the specified contract address
       const tx = {
-        to: project.contractAddress,
-        value: ethers.parseEther("0.1"), // Default to 0.1 ETH - you should make this dynamic
+        to: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+        value: ethers.parseEther("0.1"), // Default to 0.1 ETH
       };
 
       // Send transaction
