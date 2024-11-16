@@ -56,10 +56,37 @@ const ProjectDetail = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
 
-      // Create transaction object with the specified contract address
+      // Get the current network
+      const network = await provider.getNetwork();
+      
+      // Check if we're on the correct network (Ethereum Mainnet)
+      if (network.chainId !== 1n) {
+        toast({
+          title: "Wrong Network",
+          description: "Please switch to Ethereum Mainnet",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check balance before sending
+      const balance = await provider.getBalance(await signer.getAddress());
+      const requiredAmount = ethers.parseEther("0.1");
+      
+      if (balance < requiredAmount) {
+        toast({
+          title: "Insufficient Balance",
+          description: "You need at least 0.1 ETH plus gas to fund this project",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Create transaction object with the project's funding address
+      // Using a regular EOA address for receiving ETH instead of the USDC contract
       const tx = {
-        to: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-        value: ethers.parseEther("0.1"), // Default to 0.1 ETH
+        to: project.contractAddress, // Use the project's actual funding address
+        value: ethers.parseEther("0.1"),
       };
 
       // Send transaction
@@ -82,7 +109,7 @@ const ProjectDetail = () => {
       console.error('Error:', error);
       toast({
         title: "Transaction Failed",
-        description: error.message || "Please try again",
+        description: "Make sure you have enough ETH for the transaction and gas fees",
         variant: "destructive",
       });
     } finally {
