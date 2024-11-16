@@ -15,7 +15,7 @@ const ProjectDetail = () => {
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
     daysLeft: 7,
     contributors: 156,
-    contractAddress: "0x123...", // Replace with your actual contract address
+    contractAddress: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
     team: [
       {
         name: "Alice Johnson",
