@@ -1,4 +1,6 @@
 import { Progress } from "@/components/ui/progress";
+import { Card } from "@/components/ui/card";
+import { Coins, Users, Clock } from "lucide-react";
 
 interface FundingProgressProps {
   raised: number;
@@ -11,25 +13,36 @@ const FundingProgress = ({ raised, goal, contributors, daysLeft }: FundingProgre
   const progress = (raised / goal) * 100;
 
   return (
-    <div className="p-6 rounded-xl bg-white border border-gray-200">
+    <Card className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 text-white border-none shadow-xl">
       <div className="space-y-6">
         <div>
-          <h3 className="text-2xl font-bold mb-1">{raised} ETH</h3>
-          <p className="text-gray-600">raised of {goal} ETH goal</p>
+          <h3 className="text-3xl font-bold mb-1 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            {raised} ETH
+          </h3>
+          <p className="text-gray-400">raised of {goal} ETH goal</p>
         </div>
-        <Progress value={progress} className="h-3" />
+        
+        <Progress value={progress} className="h-3 bg-gray-700" />
+        
         <div className="grid grid-cols-2 gap-4">
-          <div>
+          <div className="bg-gray-800/50 p-4 rounded-lg">
+            <div className="flex items-center gap-2 text-gray-300 mb-2">
+              <Users className="w-4 h-4" />
+              <p className="text-sm">Contributors</p>
+            </div>
             <p className="text-2xl font-bold">{contributors}</p>
-            <p className="text-gray-600">Contributors</p>
           </div>
-          <div>
+          
+          <div className="bg-gray-800/50 p-4 rounded-lg">
+            <div className="flex items-center gap-2 text-gray-300 mb-2">
+              <Clock className="w-4 h-4" />
+              <p className="text-sm">Days Left</p>
+            </div>
             <p className="text-2xl font-bold">{daysLeft}</p>
-            <p className="text-gray-600">Days Left</p>
           </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

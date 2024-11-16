@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 const ProjectDetail = () => {
   const { id } = useParams();
 
-  // Mock project data (in a real app, this would come from an API)
   const project = {
     id: "1",
     title: "DeFi Lending Protocol",
@@ -32,10 +31,10 @@ const ProjectDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
       
-      <div className="pt-24 px-4 sm:px-6 lg:px-8">
+      <div className="pt-24 px-4 sm:px-6 lg:px-8 pb-32">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
@@ -46,24 +45,30 @@ const ProjectDetail = () => {
                 className="w-full aspect-video object-cover rounded-xl"
               />
               
-              <div className="bg-white rounded-xl p-8 space-y-6">
-                <h1 className="text-3xl font-bold">{project.title}</h1>
-                <p className="text-gray-600 whitespace-pre-line">{project.description}</p>
+              <div className="bg-gray-800 rounded-xl p-8 space-y-6 shadow-xl">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  {project.title}
+                </h1>
+                <p className="text-gray-300 whitespace-pre-line leading-relaxed">
+                  {project.description}
+                </p>
               </div>
 
-              <div className="bg-white rounded-xl p-8">
-                <h2 className="text-2xl font-bold mb-6">Team</h2>
+              <div className="bg-gray-800 rounded-xl p-8 shadow-xl">
+                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  Team
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {project.team.map((member) => (
-                    <div key={member.name} className="flex items-center space-x-4">
+                    <div key={member.name} className="flex items-center space-x-4 bg-gray-700/50 p-4 rounded-lg">
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-12 h-12 rounded-full object-cover ring-2 ring-primary"
                       />
                       <div>
                         <h3 className="font-semibold">{member.name}</h3>
-                        <p className="text-gray-600 text-sm">{member.role}</p>
+                        <p className="text-gray-400 text-sm">{member.role}</p>
                       </div>
                     </div>
                   ))}
@@ -72,7 +77,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-6 lg:sticky lg:top-24">
               <FundingProgress
                 raised={project.raised}
                 goal={project.goal}
@@ -82,7 +87,10 @@ const ProjectDetail = () => {
               
               <TokenCalculator />
               
-              <Button className="w-full text-lg py-6" size="lg">
+              <Button 
+                className="w-full text-lg py-6 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity"
+                size="lg"
+              >
                 Fund This Project
               </Button>
             </div>
