@@ -79,11 +79,12 @@ export const useFunding = (contractAddress: string) => {
 
       const balance = await provider.getBalance(await signer.getAddress());
       const requiredAmount = ethers.parseEther(amount);
+      const estimatedGas = ethers.parseEther("0.001"); // Estimate gas cost as 0.001 ETH
       
-      if (balance < requiredAmount) {
+      if (balance < (requiredAmount + estimatedGas)) {
         toast({
           title: "Insufficient Balance",
-          description: `You need at least ${amount} Sepolia ETH plus gas to fund this project`,
+          description: `You need ${amount} ETH plus ~0.001 ETH for gas. Your balance: ${ethers.formatEther(balance)} ETH`,
           variant: "destructive",
         });
         return;
