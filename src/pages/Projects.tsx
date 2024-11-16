@@ -3,49 +3,49 @@ import ProjectCard from "@/components/ProjectCard";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
-const projects = [
+const defaultProjects = [
   {
-    id: "1",
+    id: "defi-lending",
     title: "DeFi Lending Protocol",
     description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates.",
     raised: 15,
     goal: 20,
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
     daysLeft: 7,
-    category: "DeFi"
+    category: "DeFi",
+    contractAddress: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"
   },
   {
-    id: "2",
+    id: "nft-marketplace",
     title: "NFT Marketplace",
     description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
     raised: 8,
     goal: 15,
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
     daysLeft: 12,
-    category: "NFT"
+    category: "NFT",
+    contractAddress: "0x8b89995e5f793A07Bc00c21412e50Ecae098E8f0"
   },
   {
-    id: "3",
+    id: "dao-governance",
     title: "DAO Governance Tool",
     description: "Simplified DAO governance with on-chain voting and proposal management.",
     raised: 5,
     goal: 10,
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
     daysLeft: 15,
-    category: "DAO"
-  },
-  // Add more projects here
+    category: "DAO",
+    contractAddress: "0x9c99995e5f793A07Bc00c21412e50Ecae098E9f1"
+  }
 ];
-
-const categories = ["All", "DeFi", "NFT", "DAO", "Gaming", "Infrastructure"];
 
 const Projects = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Get projects from localStorage
+  // Get projects from localStorage and combine with default projects
   const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-  const allProjects = [...projects, ...storedProjects];
+  const allProjects = [...defaultProjects, ...storedProjects];
 
   const filteredProjects = allProjects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -53,6 +53,8 @@ const Projects = () => {
     const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const categories = ["All", "DeFi", "NFT", "DAO", "Gaming", "Infrastructure"];
 
   return (
     <div className="min-h-screen bg-gray-50">
