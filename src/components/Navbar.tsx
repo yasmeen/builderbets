@@ -60,22 +60,12 @@ const Navbar = () => {
     }
   };
 
-  const handleDisconnect = async () => {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({
-          method: "wallet_requestPermissions",
-          params: [{ eth_accounts: {} }]
-        });
-        setAddress(null);
-        toast({
-          title: "Wallet Disconnected",
-          description: "Your wallet has been disconnected successfully",
-        });
-      } catch (error) {
-        console.error("Error disconnecting wallet:", error);
-      }
-    }
+  const handleDisconnect = () => {
+    setAddress(null);
+    toast({
+      title: "Wallet Disconnected",
+      description: "Your wallet has been disconnected successfully",
+    });
   };
 
   const shortenAddress = (address: string) => {
