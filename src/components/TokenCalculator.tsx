@@ -1,12 +1,15 @@
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Coins, Users, Timer } from "lucide-react";
 
-const TokenCalculator = () => {
-  const [contribution, setContribution] = useState("");
-  const tokenAllocation = Number(contribution) * 1000;
+interface TokenCalculatorProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const TokenCalculator = ({ value, onChange }: TokenCalculatorProps) => {
+  const tokenAllocation = Number(value) * 1000;
   const projectTokens = 1000000; // Example: 1M total tokens
   const percentageOwnership = (tokenAllocation / projectTokens) * 100;
 
@@ -23,9 +26,11 @@ const TokenCalculator = () => {
             <label className="block text-sm text-gray-300">Your Contribution (ETH)</label>
             <Input
               type="number"
-              value={contribution}
-              onChange={(e) => setContribution(e.target.value)}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
               placeholder="0.0"
+              step="0.001"
+              min="0"
               className="bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500"
             />
           </div>

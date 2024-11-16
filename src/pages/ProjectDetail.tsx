@@ -1,16 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { ethers } from "ethers";
-import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
-import FundingProgress from "@/components/FundingProgress";
-import TokenCalculator from "@/components/TokenCalculator";
-import { Button } from "@/components/ui/button";
+import ProjectSidebar from "@/components/ProjectSidebar";
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
   // Example project data - in a real app, this would come from your backend
   const project = {
@@ -35,120 +28,6 @@ const ProjectDetail = () => {
         image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
       }
     ]
-  };
-
-  const handleFund = async () => {
-    try {
-      setIsLoading(true);
-
-      if (!window.ethereum) {
-        toast({
-          title: "MetaMask not found",
-          description: "Please install MetaMask to fund this project",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Request account access
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-
-      // Get the current network
-      const network = await provider.getNetwork();
-      
-      // Check if we're on Sepolia testnet (chainId: 11155111)
-      if (network.chainId !== 11155111n) {
-        // Try to switch to Sepolia
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0xaa36a7' }], // Sepolia chainId in hex
-          });
-        } catch (switchError: any) {
-          // If Sepolia is not added to MetaMask, add it
-          if (switchError.code === 4902) {
-            try {
-              await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [{
-                  chainId: '0xaa36a7',
-                  chainName: 'Sepolia Testnet',
-                  nativeCurrency: {
-                    name: 'Sepolia ETH',
-                    symbol: 'SEP',
-                    decimals: 18
-                  },
-                  rpcUrls: ['https://sepolia.infura.io/v3/'],
-                  blockExplorerUrls: ['https://sepolia.etherscan.io']
-                }]
-              });
-            } catch (addError) {
-              toast({
-                title: "Network Error",
-                description: "Please add and switch to Sepolia testnet manually",
-                variant: "destructive",
-              });
-              return;
-            }
-          } else {
-            toast({
-              title: "Network Error",
-              description: "Please switch to Sepolia testnet",
-              variant: "destructive",
-            });
-            return;
-          }
-        }
-      }
-
-      // Check balance before sending
-      const balance = await provider.getBalance(await signer.getAddress());
-      const requiredAmount = ethers.parseEther("0.1");
-      
-      if (balance < requiredAmount) {
-        toast({
-          title: "Insufficient Balance",
-          description: "You need at least 0.1 Sepolia ETH plus gas to fund this project",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      // Create transaction object with the project's funding address
-      const tx = {
-        to: project.contractAddress,
-        value: ethers.parseEther("0.1"),
-      };
-
-      // Send transaction
-      const transaction = await signer.sendTransaction(tx);
-      
-      toast({
-        title: "Transaction Sent",
-        description: "Please wait for confirmation...",
-      });
-
-      // Wait for transaction to be mined
-      await transaction.wait();
-
-      toast({
-        title: "Success!",
-        description: "Your contribution has been received",
-      });
-
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        title: "Transaction Failed",
-        description: "Make sure you have enough Sepolia ETH for the transaction and gas fees",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
@@ -198,25 +77,13 @@ const ProjectDetail = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6 lg:sticky lg:top-24">
-              <FundingProgress
-                raised={project.raised}
-                goal={project.goal}
-                contributors={project.contributors}
-                daysLeft={project.daysLeft}
-              />
-              
-              <TokenCalculator />
-              
-              <Button 
-                className="w-full text-lg py-6 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity"
-                size="lg"
-                onClick={handleFund}
-                disabled={isLoading}
-              >
-                {isLoading ? "Processing..." : "Fund This Project"}
-              </Button>
-            </div>
+            <ProjectSidebar
+              raised={project.raised}
+              goal={project.goal}
+              contributors={project.contributors}
+              daysLeft={project.daysLeft}
+              contractAddress={project.contractAddress}
+            />
           </div>
         </div>
       </div>
