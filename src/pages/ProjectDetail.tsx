@@ -46,7 +46,7 @@ const ProjectDetail = () => {
               />
               
               <div className="bg-gray-800 rounded-xl p-8 space-y-6 shadow-xl">
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   {project.title}
                 </h1>
                 <p className="text-gray-300 whitespace-pre-line leading-relaxed">
@@ -55,7 +55,7 @@ const ProjectDetail = () => {
               </div>
 
               <div className="bg-gray-800 rounded-xl p-8 shadow-xl">
-                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   Team
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -64,7 +64,7 @@ const ProjectDetail = () => {
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-12 h-12 rounded-full object-cover ring-2 ring-primary"
+                        className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500"
                       />
                       <div>
                         <h3 className="font-semibold">{member.name}</h3>
@@ -77,7 +77,7 @@ const ProjectDetail = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6 lg:sticky lg:top-24">
+            <div className="space-y-8 lg:sticky lg:top-24">
               <FundingProgress
                 raised={project.raised}
                 goal={project.goal}
@@ -86,13 +86,6 @@ const ProjectDetail = () => {
               />
               
               <TokenCalculator />
-              
-              <Button 
-                className="w-full text-lg py-6 bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity"
-                size="lg"
-              >
-                Fund This Project
-              </Button>
             </div>
           </div>
         </div>
