@@ -43,18 +43,14 @@ const Projects = () => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Get projects from localStorage and combine with default projects
-  const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-  const allProjects = [...defaultProjects, ...storedProjects];
+  const categories = ["All", "DeFi", "NFT", "DAO", "Gaming", "Infrastructure"];
 
-  const filteredProjects = allProjects.filter(project => {
+  const filteredProjects = [...defaultProjects].filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) ||
                          project.description.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = selectedCategory === "All" || project.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-
-  const categories = ["All", "DeFi", "NFT", "DAO", "Gaming", "Infrastructure"];
 
   return (
     <div className="min-h-screen bg-gray-50">

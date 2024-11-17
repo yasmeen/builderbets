@@ -16,7 +16,7 @@ const FundingProgress = ({ raised, goal, contributors, daysLeft }: FundingProgre
     <Card className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 text-white border-none shadow-xl">
       <div className="space-y-6">
         <div>
-          <h3 className="text-3xl font-bold mb-1 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+          <h3 className="text-3xl font-bold mb-1 bg-gradient-to-r from-purple-400 to-green-400 bg-clip-text text-transparent">
             {raised} ETH
           </h3>
           <p className="text-gray-400">raised of {goal} ETH goal</p>
@@ -24,7 +24,7 @@ const FundingProgress = ({ raised, goal, contributors, daysLeft }: FundingProgre
         
         <Progress 
           value={progress} 
-          className="h-3 bg-gray-700 [&>[role=progressbar]]:bg-gradient-to-r [&>[role=progressbar]]:from-primary [&>[role=progressbar]]:to-secondary" 
+          className="h-3 bg-gray-700 [&>[role=progressbar]]:bg-gradient-to-r [&>[role=progressbar]]:from-purple-500 [&>[role=progressbar]]:to-green-500" 
         />
         
         <div className="grid grid-cols-2 gap-4">

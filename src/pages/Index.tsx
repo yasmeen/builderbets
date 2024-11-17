@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const featuredProjects = [
   {
-    id: "1",
+    id: "defi-lending",
     title: "DeFi Lending Protocol",
     description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates.",
     raised: 15,
@@ -16,7 +16,7 @@ const featuredProjects = [
     category: "DeFi"
   },
   {
-    id: "2",
+    id: "nft-marketplace",
     title: "NFT Marketplace",
     description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
     raised: 8,
@@ -26,7 +26,7 @@ const featuredProjects = [
     category: "NFT"
   },
   {
-    id: "3",
+    id: "dao-governance",
     title: "DAO Governance Tool",
     description: "Simplified DAO governance with on-chain voting and proposal management.",
     raised: 5,
@@ -37,51 +37,48 @@ const featuredProjects = [
   }
 ];
 
+const categories = [
+  "DeFi", "NFT", "GameFi", "DAO", "Infrastructure", "Social", "DeSci", "Public Goods",
+  "Gaming", "Metaverse", "AI", "Privacy", "Layer 2", "Tools", "Education"
+];
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <div className="absolute inset-0 bg-grid-white/10" />
-        <div className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center space-y-8">
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Welcome to LaunchPad
-              </h1>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                The premier platform for Web3 projects. Back innovative ideas, earn tokens, and be part of the future.
-              </p>
-              <div className="flex justify-center gap-4">
-                <Link to="/projects" className="px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
-                  Explore Projects
-                </Link>
-                <Link to="/submit" className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors">
-                  Submit Project
-                </Link>
-              </div>
-            </div>
+      {/* Categories Bar */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-6 overflow-x-auto py-3 scrollbar-hide">
+            {categories.map((category) => (
+              <Link
+                key={category}
+                to={`/projects?category=${category}`}
+                className="text-sm text-gray-600 whitespace-nowrap hover:text-primary transition-colors"
+              >
+                {category}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Stats Section */}
-      <div className="border-y border-gray-200 bg-white">
+      <div className="border-b border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-primary">269,319</div>
-              <div className="text-gray-500 mt-2">Projects Funded</div>
+              <div className="text-4xl font-bold text-primary">1,234</div>
+              <div className="text-gray-500 mt-2">Active Projects</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-secondary">$8.4B+</div>
+              <div className="text-4xl font-bold text-secondary">$42.5M</div>
               <div className="text-gray-500 mt-2">Total Raised</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-accent">99.1M+</div>
-              <div className="text-gray-500 mt-2">Total Backers</div>
+              <div className="text-4xl font-bold text-accent">25.7K</div>
+              <div className="text-gray-500 mt-2">Active Backers</div>
             </div>
           </div>
         </div>
@@ -119,27 +116,6 @@ const Index = () => {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
-      </div>
-
-      {/* Categories Section */}
-      <div className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Browse Categories</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {["DeFi", "NFT", "GameFi", "DAO", "Infrastructure", "Social", "Tools", "Other"].map((category) => (
-              <Link
-                key={category}
-                to={`/projects?category=${category}`}
-                className="group relative aspect-video overflow-hidden rounded-lg bg-gray-900"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-gray-900/0" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-xl font-medium text-white">{category}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
     </div>
