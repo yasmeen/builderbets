@@ -37,32 +37,10 @@ const featuredProjects = [
   }
 ];
 
-const categories = [
-  "DeFi", "NFT", "GameFi", "DAO", "Infrastructure", "Social", "DeSci", "Public Goods",
-  "Gaming", "Metaverse", "AI", "Privacy", "Layer 2", "Tools", "Education"
-];
-
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-28">
       <Navbar />
-      
-      {/* Categories Bar - Added pt-16 for spacing below fixed navbar */}
-      <div className="bg-white border-b border-gray-200 pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-6 overflow-x-auto py-3 scrollbar-hide">
-            {categories.map((category) => (
-              <Link
-                key={category}
-                to={`/projects?category=${category}`}
-                className="text-sm text-gray-600 whitespace-nowrap hover:text-primary transition-colors"
-              >
-                {category}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Stats Section */}
       <div className="border-b border-gray-200 bg-white">
