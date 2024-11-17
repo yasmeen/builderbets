@@ -47,8 +47,8 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      {/* Categories Bar */}
-      <div className="bg-white border-b border-gray-200">
+      {/* Categories Bar - Added pt-16 for spacing below fixed navbar */}
+      <div className="bg-white border-b border-gray-200 pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 scrollbar-hide">
             {categories.map((category) => (
