@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const featuredProjects = [
   {
-    id: "defi-lending",
+    id: "1",
     title: "DeFi Lending Protocol",
     description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates.",
     raised: 15,
@@ -16,7 +16,7 @@ const featuredProjects = [
     category: "DeFi"
   },
   {
-    id: "nft-marketplace",
+    id: "2",
     title: "NFT Marketplace",
     description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
     raised: 8,
@@ -26,7 +26,7 @@ const featuredProjects = [
     category: "NFT"
   },
   {
-    id: "dao-governance",
+    id: "3",
     title: "DAO Governance Tool",
     description: "Simplified DAO governance with on-chain voting and proposal management.",
     raised: 5,

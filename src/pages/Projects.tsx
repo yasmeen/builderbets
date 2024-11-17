@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const defaultProjects = [
   {
-    id: "defi-lending",
+    id: "1",
     title: "DeFi Lending Protocol",
     description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates.",
     raised: 15,
@@ -16,7 +16,7 @@ const defaultProjects = [
     contractAddress: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"
   },
   {
-    id: "nft-marketplace",
+    id: "2",
     title: "NFT Marketplace",
     description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
     raised: 8,
@@ -27,7 +27,7 @@ const defaultProjects = [
     contractAddress: "0x8b89995e5f793A07Bc00c21412e50Ecae098E8f0"
   },
   {
-    id: "dao-governance",
+    id: "3",
     title: "DAO Governance Tool",
     description: "Simplified DAO governance with on-chain voting and proposal management.",
     raised: 5,
