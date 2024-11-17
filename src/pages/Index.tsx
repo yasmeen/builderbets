@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ProjectCard from "@/components/ProjectCard";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const featuredProjects = [
   {
@@ -10,7 +12,8 @@ const featuredProjects = [
     raised: 15,
     goal: 20,
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
-    daysLeft: 7
+    daysLeft: 7,
+    category: "DeFi"
   },
   {
     id: "2",
@@ -19,7 +22,8 @@ const featuredProjects = [
     raised: 8,
     goal: 15,
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-    daysLeft: 12
+    daysLeft: 12,
+    category: "NFT"
   },
   {
     id: "3",
@@ -28,7 +32,8 @@ const featuredProjects = [
     raised: 5,
     goal: 10,
     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-    daysLeft: 15
+    daysLeft: 15,
+    category: "DAO"
   }
 ];
 
@@ -38,22 +43,45 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center space-y-8">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Fund the Future of Web3
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Support innovative hackathon projects and earn token allocations. Your contribution today shapes tomorrow's blockchain ecosystem.
-            </p>
-            <div className="flex justify-center gap-4">
-              <Link to="/projects" className="px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
-                Explore Projects
-              </Link>
-              <Link to="/submit" className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors">
-                Submit Project
-              </Link>
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
+        <div className="absolute inset-0 bg-grid-white/10" />
+        <div className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center space-y-8">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Welcome to LaunchPad
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                The premier platform for Web3 projects. Back innovative ideas, earn tokens, and be part of the future.
+              </p>
+              <div className="flex justify-center gap-4">
+                <Link to="/projects" className="px-6 py-3 rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+                  Explore Projects
+                </Link>
+                <Link to="/submit" className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary/5 transition-colors">
+                  Submit Project
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="border-y border-gray-200 bg-white">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-primary">269,319</div>
+              <div className="text-gray-500 mt-2">Projects Funded</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-secondary">$8.4B+</div>
+              <div className="text-gray-500 mt-2">Total Raised</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-accent">99.1M+</div>
+              <div className="text-gray-500 mt-2">Total Backers</div>
             </div>
           </div>
         </div>
@@ -62,41 +90,55 @@ const Index = () => {
       {/* Featured Projects */}
       <div className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Featured Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProjects.map((project) => (
-              <ProjectCard key={project.id} {...project} />
-            ))}
-          </div>
+          <Tabs defaultValue="featured" className="space-y-8">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="featured">Featured</TabsTrigger>
+                <TabsTrigger value="trending">Trending</TabsTrigger>
+                <TabsTrigger value="new">Just Launched</TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="featured" className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredProjects.map((project) => (
+                  <ProjectCard key={project.id} {...project} />
+                ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="trending">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Show different projects here */}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="new">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Show different projects here */}
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
 
-      {/* How It Works */}
+      {/* Categories Section */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold mb-12 text-center">How It Works</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-primary">1</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Choose a Project</h3>
-              <p className="text-gray-600">Browse innovative hackathon projects and find ones that excite you.</p>
-            </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-secondary">2</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Fund with Crypto</h3>
-              <p className="text-gray-600">Contribute ETH to support project development and secure your allocation.</p>
-            </div>
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-accent">3</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Earn Tokens</h3>
-              <p className="text-gray-600">Receive future token allocations based on your contribution amount.</p>
-            </div>
+          <h2 className="text-3xl font-bold mb-8">Browse Categories</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {["DeFi", "NFT", "GameFi", "DAO", "Infrastructure", "Social", "Tools", "Other"].map((category) => (
+              <Link
+                key={category}
+                to={`/projects?category=${category}`}
+                className="group relative aspect-video overflow-hidden rounded-lg bg-gray-900"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-gray-900/0" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-xl font-medium text-white">{category}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
