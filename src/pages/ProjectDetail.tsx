@@ -2,78 +2,107 @@ import { useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import ProjectSidebar from "@/components/ProjectSidebar";
 
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  raised: number;
+  goal: number;
+  image: string;
+  daysLeft: number;
+  contributors: number;
+  contractAddress: string;
+  team: TeamMember[];
+}
+
+const defaultProjects: Project[] = [
+  {
+    id: "1",
+    title: "DeFi Lending Protocol",
+    description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates. Our platform leverages smart contracts to automate lending processes and provide competitive rates for both lenders and borrowers.",
+    raised: 15,
+    goal: 20,
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
+    daysLeft: 7,
+    contributors: 156,
+    contractAddress: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+    team: [
+      {
+        name: "Alice Johnson",
+        role: "Lead Developer",
+        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+      },
+      {
+        name: "Bob Smith",
+        role: "Smart Contract Engineer",
+        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+      }
+    ]
+  },
+  {
+    id: "2",
+    title: "NFT Marketplace",
+    description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
+    raised: 8,
+    goal: 15,
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+    daysLeft: 12,
+    contributors: 89,
+    contractAddress: "0x8b89995e5f793A07Bc00c21412e50Ecae098E8f0",
+    team: [
+      {
+        name: "Carol White",
+        role: "Product Manager",
+        image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
+      }
+    ]
+  },
+  {
+    id: "3",
+    title: "DAO Governance Tool",
+    description: "Simplified DAO governance with on-chain voting and proposal management.",
+    raised: 5,
+    goal: 10,
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+    daysLeft: 15,
+    contributors: 45,
+    contractAddress: "0x9c99995e5f793A07Bc00c21412e50Ecae098E9f1",
+    team: [
+      {
+        name: "David Lee",
+        role: "Blockchain Developer",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
+      }
+    ]
+  }
+];
+
 const ProjectDetail = () => {
   const { id } = useParams();
 
   // Combine default and stored projects
-  const defaultProjects = [
-    {
-      id: "defi-lending",
-      title: "DeFi Lending Protocol",
-      description: "A revolutionary lending protocol that enables instant crypto-backed loans with dynamic interest rates. Our platform leverages smart contracts to automate lending processes and provide competitive rates for both lenders and borrowers.",
-      raised: 15,
-      goal: 20,
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
-      daysLeft: 7,
-      contributors: 156,
-      contractAddress: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
-      team: [
-        {
-          name: "Alice Johnson",
-          role: "Lead Developer",
-          image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
-        },
-        {
-          name: "Bob Smith",
-          role: "Smart Contract Engineer",
-          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-        }
-      ]
-    },
-    {
-      id: "nft-marketplace",
-      title: "NFT Marketplace",
-      description: "Next-generation NFT marketplace with cross-chain support and innovative trading features.",
-      raised: 8,
-      goal: 15,
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-      daysLeft: 12,
-      contributors: 89,
-      contractAddress: "0x8b89995e5f793A07Bc00c21412e50Ecae098E8f0",
-      team: [
-        {
-          name: "Carol White",
-          role: "Product Manager",
-          image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
-        }
-      ]
-    },
-    {
-      id: "dao-governance",
-      title: "DAO Governance Tool",
-      description: "Simplified DAO governance with on-chain voting and proposal management.",
-      raised: 5,
-      goal: 10,
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      daysLeft: 15,
-      contributors: 45,
-      contractAddress: "0x9c99995e5f793A07Bc00c21412e50Ecae098E9f1",
-      team: [
-        {
-          name: "David Lee",
-          role: "Blockchain Developer",
-          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-        }
-      ]
-    }
-  ];
-
   const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
   const allProjects = [...defaultProjects, ...storedProjects];
   const project = allProjects.find(p => p.id === id);
 
   if (!project) {
-    return <div>Project not found</div>;
+    return (
+      <div className="min-h-screen bg-gray-900 text-white">
+        <Navbar />
+        <div className="pt-24 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-3xl font-bold">Project not found</h1>
+            <p className="mt-4 text-gray-400">The project you're looking for doesn't exist or has been removed.</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
